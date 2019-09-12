@@ -9,7 +9,7 @@ app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
 const port = 3000
 
-var userRoute = require('./src/routers/user');
+var userRoute = require('./src/routers/userRoute');
 
 app.use('/', userRoute);
-app.listen(port, () => console.log(`Example app listening on port port!`))
+app.listen(port, () => console.log(`Port 3000 on`))

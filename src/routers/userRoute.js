@@ -1,5 +1,5 @@
 var express = require('express');
-var user = require("../controller/user");
+var user = require("../controller/userController");
 const router = express.Router();
 
 router.route('/user')
@@ -8,7 +8,6 @@ router.route('/user')
 
 router.route('/user/:id')
   .get(user.findById)
-  .put(user.replace)
   .patch(user.update)
   .delete(user.delete);
 
