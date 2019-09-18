@@ -6,7 +6,7 @@ exports.findAll = (req, res) => {
       res.json(comics);
     })
     .catch((e) => {
-      res.send(e);
+      res.send(e) || "Some error occurred while retrieving User.";
     });
 };
 
@@ -14,56 +14,47 @@ exports.findById = (req, res) => {
   Comic.findById(req.params.id)
     .then((comic) => {
       if (comic) {
-        res.json(comic);
+        res.send(comic);
       }
     })
     .catch((e) => {
-      res.send(e);
+      res.status(404).send({message: "Comic not found"});
     });
 };
 
 exports.save = (req, res) => {
-  const comic = new Comic(req);
-  comic.title = req.body.title;
-  comic.description = req.body.description;
-  comic.author = req.body.author;
-  comic.genre = req.body.genre;
-  comic.cover = req.body.cover
-  comic.save()
-    .then(() => {
-      res.json(comic);
-    })
-    .catch((e) => {
-      res.send(e);
-    });
-};
+  var comic = new Comic({
+  title: req.body.title,
+  description: req.body.description,
+  author: req.body.author,
+  genre: req.body.genre,
+  rating: [],
+  avarage: null
 
-exports.replace = (req, res) => {
-  const options = { overwrite: true };
-  Comic.update({ _id: req.params.id }, req.body, options).exec()
-    .then((result) => {
-      if (result.n) {
-        return Comic.findById(req.params.id);
-      }
-      return res.send(404);
-    })
-    .then((comic) => {
-      res.json(comic);
-    })
-    .catch((e) => {
-      res.send(e);
+  })
+
+  comic.save()
+  .then((comic) => {
+    res.send(comic);
+  })
+  .catch((err) => {
+    res.status(500).send({
+      message: err.message || "Some error occurred while creating the Comic."
     });
+  });
 };
 
 exports.update = (req, res) => {
-  const options = { new: true };
-  Comic.findByIdAndUpdate(req.params.id, req.body, options)
+  Comic.findByIdAndUpdate(req.params.id,{
+  title: req.body.title,
+  description: req.body.description,
+  author: req.body.author,
+  genre: req.body.genre,
+  rating: [],
+  avarage: null
+  },{ new: true })
     .then((comic) => {
-      if (comic) {
-        res.json(comic);
-      } else {
-        res.send(404);
-      }
+        res.send(comic);
     })
     .catch((e) => {
       res.send(e);
@@ -71,18 +62,13 @@ exports.update = (req, res) => {
 };
 
 exports.delete = (req, res) => {
-  Comic.remove({ _id: req.params.id })
-    .exec()
-    .then((result) => {
-      if (result) {
-        res.send(204);
-      } else {
-        res.send(404);
-      }
-    })
-    .catch((e) => {
-      res.send(e);
-    });
+  Comic.findByIdAndRemove(req.params.id)
+  .then(comic =>{
+    res.send({message:" Comic deleted successfully!"});
+  })
+  .catch(err => {
+    res.status(404).send({message: "Could not delete comic"})
+  })
 };
 
 exports.randomHQ = (req,res) =>{
@@ -96,16 +82,15 @@ exports.randomHQ = (req,res) =>{
   }
   
 exports.nota = (req, res) => {
-    Comic.findOne({'title': req.params.title})
+    Comic.findById(req.params.id)
       .then(comic => {
-        //Nota
-        comic.rat .push(req.body.nota)
-        //Media
+        comic.rating.push(req.body.avarage)
+        
         var soma = 0
-        for(var i = 0; i < comic.nota.length; i++){
-          soma += parseInt(comic.nota[i])
+        for(var i = 0; i < comic.avarage.length; i++){
+          soma += parseInt(comic.avarage[i])
          }
-        comic.media = soma/comic.nota.length
+        comic.rating = soma/comic.avarage.length
         comic.save();
         res.json(comic)
       })
@@ -113,22 +98,3 @@ exports.nota = (req, res) => {
         res.send(e);
       });
   };
-
-/*
-exports.media = (req, res) => {
-  Comic.findOne({'title': req.params.title})
-  .then(comic => {
-    var media = 0
-    var soma = 0
-    for(var i = 0; i < comic.Nota.length; i++){
-      soma += parseInt(comic.Nota[i])
-    }
-    media = soma/comic.Nota.length
-    
-    res.json(media)
-  })
-  .catch((e) => {
-    res.send(e);
-  });
-}
-*/

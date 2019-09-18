@@ -2,7 +2,7 @@ var bcrypt = require('bcrypt');
 var User = require('../model/user');
 
 exports.findAll = (req, res) => {
-  User.find()
+  User.find().populate('Comic')
     .then((users) => {
       res.json(users);
     })
@@ -12,20 +12,25 @@ exports.findAll = (req, res) => {
 };
 
 exports.findById = (req, res) => {
-  User.findById(req.params.id)
+
+  
+  User.findById(req.params.id).populate('comicList')
     .then(user => {
+      
       res.send(user);
     })
     .catch(err => {
       res.status(404).send({message: "User not found"});
     });
+    
 };
 
 exports.save = (req, res) => {
   var user = new User({
     name: req.body.name,
     email: req.body.email,
-    password: req.body.password
+    password: req.body.password,
+    comicList: []
   });
 
   user.save()
@@ -46,7 +51,7 @@ exports.update = (req, res) => {
     password: req.body.password},
     {new: true})
     .then((user) => {  
-      res.json(user);
+      res.send(user);
     })
     .catch((e) => {
       res.send(e);
@@ -54,10 +59,24 @@ exports.update = (req, res) => {
 };
 
 exports.delete = (req, res) => {
-  User.findByIdAndRemove(req.params.noteId)
+  User.findByIdAndRemove(req.params.id)
   .then(user => {
       res.send({message: "User deleted successfully!"});
   }).catch(err => {
       res.status(404).send({message: "Could not delete user"})
       });
 };
+
+exports.addComic = (req, res)=>{
+  User.findById(req.params.id)
+  .then(user => {
+    console.log(user)
+    user.comicList.push(req.body.id)
+    console.log(user)
+    user.save();
+    res.send(user)
+  })
+  .catch(err =>{
+    res.send(err)
+  })
+}

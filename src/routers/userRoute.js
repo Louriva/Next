@@ -6,6 +6,9 @@ router.route('/user')
   .get(user.findAll)
   .post(user.save);
 
+router.route('/user/add-comic/:id')
+  .post(user.addComic);
+
 router.route('/user/:id')
   .get(user.findById)
   .patch(user.update)
