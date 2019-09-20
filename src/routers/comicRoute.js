@@ -5,7 +5,7 @@ const verifyToken = require('../auth/verifyToken')
 
 router.route('/comic')
   .get(comic.findAll)
-  .post(comic.save);
+  .post(verifyToken,comic.save);
 
 router.route('/comic/:id')
   .get(comic.findById)
