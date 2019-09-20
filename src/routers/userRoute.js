@@ -3,9 +3,16 @@ var user = require("../controller/userController");
 const router = express.Router();
 
 router.route('/user')
-  .get(user.findAll)
-  .post(user.save);
+  .post(user.save)
+  .get(user.findAll);
 
+  
+router.route('/user/login')
+  .post(user.login);
+
+//router.route('/user/logout')
+//  .post(user.logout);
+  
 router.route('/user/add-comic/:id')
   .post(user.addComic);
 
