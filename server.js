@@ -9,7 +9,7 @@ const app = express();
 app.use('/api-docs', swaggerUi.serve,swaggerUi.setup (swaggerDocument))
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
-const port = 3000
+const port = process.env.PORT || 3000
 
 var userRoute = require('./src/routers/userRoute',);
 var comicRoute = require('./src/routers/comicRoute',);
