@@ -15,7 +15,7 @@ router.route('/comic/:id')
 router.route('/comic/random')
   .get(comic.randomHQ);
 
-route.router('/comic/score/:id')
+router.route('/comic/score/:id')
   .post(comic.score);
 
 module.exports = router;
