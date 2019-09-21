@@ -29,7 +29,9 @@ exports.save = (req, res) => {
   author: req.body.author,
   genre: req.body.genre,
   image: req.body.image,
-  comicLink: req.body.comicLink
+  comicLink: req.body.comicLink,
+  avarage: req.body.avarage,
+  rating: req.body.rating
   })
 
   comic.save()
@@ -49,8 +51,8 @@ exports.update = (req, res) => {
   description: req.body.description,
   author: req.body.author,
   genre: req.body.genre,
-  rating: [],
-  avarage: null
+  rating: req.body.rating,
+  avarage: req.body.avarage
   },{ new: true })
     .then((comic) => {
         res.send(comic);
@@ -80,7 +82,7 @@ exports.randomHQ = (req,res) =>{
     })
   }
   
-exports.nota = (req, res) => {
+exports.score = (req, res) => {
     Comic.findById(req.params.id)
       .then(comic => {
         comic.rating.push(req.body.avarage)

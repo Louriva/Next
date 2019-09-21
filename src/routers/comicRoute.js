@@ -5,11 +5,17 @@ const verifyToken = require('../auth/verifyToken')
 
 router.route('/comic')
   .get(comic.findAll)
-  .post(verifyToken,comic.save);
+  .post(verifyToken, comic.save);
 
 router.route('/comic/:id')
   .get(comic.findById)
-  .patch(verifyToken,comic.update)
-  .delete(verifyToken,comic.delete);
+  .patch(verifyToken, comic.update)
+  .delete(verifyToken, comic.delete);
+
+router.route('/comic/random')
+  .get(comic.randomHQ);
+
+route.router('/comic/score/:id')
+  .post(comic.score);
 
 module.exports = router;
