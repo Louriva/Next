@@ -28,9 +28,8 @@ exports.save = (req, res) => {
   description: req.body.description,
   author: req.body.author,
   genre: req.body.genre,
-  rating: [],
-  avarage: null
-
+  image: req.body.image,
+  comicLink: req.body.comicLink
   })
 
   comic.save()

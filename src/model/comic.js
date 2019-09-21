@@ -6,7 +6,8 @@ const comicSchema = new Schema({
     description: {type: String},
     author: {type: String},
     genre: {type: String},
-    rating: {type: Array},
+    image:{type: String},
+    comicLink:{type: String}
     });
 
 const Comic = mongoose.model('Comic',comicSchema);

@@ -6,7 +6,7 @@ const swaggerDocument = require('./swagger.json')
 
 const app = express();
 
-app.use('/api-docs', swaggerUi.serve,swaggerUi.setup (swaggerDocument))
+app.use('/', swaggerUi.serve,swaggerUi.setup (swaggerDocument))
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
 const port = process.env.PORT || 3000
