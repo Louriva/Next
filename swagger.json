@@ -179,6 +179,56 @@
         }
       }
     },
+    "/comic/random": {
+      "get": {
+        "tags": [
+          "comic"
+        ],
+        "summary": "Get random comic ",
+        "description": "",
+        "operationId": "getRandomComic",
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Comic"
+            }
+          },
+          "404": {
+            "description": "Comic not found"
+          }
+        }
+      }
+    },
+    "/comic/score": {
+      "post": {
+        "tags": [
+          "comic"
+        ],
+        "summary": "Give a score a comic",
+        "description": "",
+        "operationId": "ScoreComic",
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Comic"
+            }
+          },
+          "404": {
+            "description": "Comic not found"
+          }
+        }
+      }
+    },
     "/user": {
       "post": {
         "tags": [
@@ -434,6 +484,12 @@
   "definitions": {
     "User": {
       "type": "object",
+      "required": [
+        "id",
+        "name",
+        "email",
+        "password"
+      ],
       "properties": {
         "id": {
           "type": "integer",
@@ -456,7 +512,13 @@
     "Comic": {
       "type": "object",
       "required": [
-        "id"
+        "id",
+        "title",
+        "author",
+        "description",
+        "genre",
+        "image",
+        "comicLink"
       ],
       "properties": {
         "id": {
@@ -474,22 +536,20 @@
         "genre": {
           "type": "string"
         },
-        "rating": {
-          "type": "array",
-          "items": {
-            "type": "integer",
-            "example": [
-              "1",
-              "2",
-              "3"
-            ]
-          }
-        },
         "image": {
           "type": "string"
         },
         "comicLink": {
           "type": "string"
+        },
+        "avarage": {
+          "type": "array",
+          "items": {
+            "type": "integer"
+          }
+        },
+        "rating": {
+          "type": "Integer"
         }
       },
       "xml": {
